@@ -24,9 +24,9 @@ function App() {
       {/* Main Map */}
       <Map />
 
-      {/* Filter Panel (Sidebar) */}
+      {/* Filter Panel (Sidebar - Desktop) or (Full Screen - Mobile) */}
       {showFilters && (
-        <div className="absolute top-20 right-4 bottom-4 z-20 w-80 animate-slide-in-bottom">
+        <div className="absolute md:top-20 md:right-4 md:bottom-4 top-0 left-0 right-0 bottom-0 z-20 md:w-96 w-full animate-slide-in-bottom">
           <FilterPanel />
         </div>
       )}
