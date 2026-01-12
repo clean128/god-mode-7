@@ -87,6 +87,68 @@ class L2ApiService {
       l2Filters['Occupation_Group'] = filters.occupation;
     }
 
+    // Education
+    if (filters.education && filters.education.length > 0) {
+      l2Filters['Education_Level'] = filters.education;
+    }
+
+    // Interests
+    if (filters.interests && filters.interests.length > 0) {
+      l2Filters['Interest_Categories'] = filters.interests;
+    }
+
+    // Net worth
+    if (filters.netWorthRange && filters.netWorthRange.length > 0) {
+      l2Filters['Net_Worth'] = filters.netWorthRange;
+    }
+
+    // Home value
+    if (filters.homeValueRange && filters.homeValueRange.length > 0) {
+      l2Filters['Home_Market_Value'] = filters.homeValueRange;
+    }
+
+    // Credit rating
+    if (filters.creditRating && filters.creditRating.length > 0) {
+      l2Filters['Credit_Rating'] = filters.creditRating;
+    }
+
+    // Behavioral filters
+    if (filters.onlineBuyer !== undefined) {
+      l2Filters['Online_Buyer'] = filters.onlineBuyer ? 'Y' : 'N';
+    }
+
+    if (filters.mailResponder !== undefined) {
+      l2Filters['Mail_Order_Responder'] = filters.mailResponder ? 'Y' : 'N';
+    }
+
+    if (filters.charitableDonor !== undefined) {
+      l2Filters['Charitable_Donor'] = filters.charitableDonor ? 'Y' : 'N';
+    }
+
+    // Political affiliation
+    if (filters.politicalAffiliation && filters.politicalAffiliation.length > 0) {
+      l2Filters['Political_Party'] = filters.politicalAffiliation;
+    }
+
+    // Vehicle filters
+    if (filters.vehicleOwner !== undefined) {
+      l2Filters['Vehicle_Owner'] = filters.vehicleOwner ? 'Y' : 'N';
+    }
+
+    if (filters.vehicleType && filters.vehicleType.length > 0) {
+      l2Filters['Vehicle_Type'] = filters.vehicleType;
+    }
+
+    // Pet owner
+    if (filters.petOwner && filters.petOwner.length > 0) {
+      l2Filters['Pet_Owner_Type'] = filters.petOwner;
+    }
+
+    // Lifestyle segments
+    if (filters.lifestyleSegment && filters.lifestyleSegment.length > 0) {
+      l2Filters['Lifestyle_Segment'] = filters.lifestyleSegment;
+    }
+
     return l2Filters;
   }
 
