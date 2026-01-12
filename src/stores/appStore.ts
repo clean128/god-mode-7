@@ -5,7 +5,8 @@ import {
   SearchFilters, 
   SelectedPeople, 
   AppNotification,
-  MapState 
+  MapState,
+  GiftOrder
 } from '../types';
 import { FilterPreset } from '../types/filterPreset';
 
@@ -57,6 +58,19 @@ interface AppState {
   notifications: AppNotification[];
   addNotification: (notification: Omit<AppNotification, 'id' | 'timestamp'>) => void;
   removeNotification: (id: string) => void;
+  
+  // Gift selection & orders
+  showGiftSelection: boolean;
+  setShowGiftSelection: (show: boolean) => void;
+  openGiftSelection: () => void;
+  closeGiftSelection: () => void;
+  
+  currentOrder: GiftOrder | null;
+  createOrder: (order: GiftOrder) => void;
+  showOrderConfirmation: boolean;
+  setShowOrderConfirmation: (show: boolean) => void;
+  openOrderConfirmation: () => void;
+  closeOrderConfirmation: () => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -155,5 +169,23 @@ export const useAppStore = create<AppState>((set) => ({
   removeNotification: (id) => set((state) => ({
     notifications: state.notifications.filter((n) => n.id !== id)
   })),
+  
+  // Gift selection
+  showGiftSelection: false,
+  setShowGiftSelection: (show) => set({ showGiftSelection: show }),
+  openGiftSelection: () => set({ showGiftSelection: true }),
+  closeGiftSelection: () => set({ showGiftSelection: false }),
+  
+  // Orders
+  currentOrder: null,
+  createOrder: (order) => set({ 
+    currentOrder: order,
+    showOrderConfirmation: true,
+    showGiftSelection: false 
+  }),
+  showOrderConfirmation: false,
+  setShowOrderConfirmation: (show) => set({ showOrderConfirmation: show }),
+  openOrderConfirmation: () => set({ showOrderConfirmation: true }),
+  closeOrderConfirmation: () => set({ showOrderConfirmation: false }),
 }));
 

@@ -139,6 +139,23 @@ export interface Gift {
   price: number;
   imageUrl?: string;
   category?: string;
+  sendosoId?: string; // Sendoso catalog ID
+}
+
+export interface GiftOrder {
+  id: string;
+  gift: Gift;
+  recipients: Person[];
+  message?: string;
+  totalPrice: number;
+  status: 'pending' | 'processing' | 'sent' | 'delivered' | 'failed';
+  createdAt: number;
+  sendosoOrderId?: string;
+}
+
+export interface GiftSelection {
+  gift: Gift | null;
+  message: string;
 }
 
 export interface AppNotification {

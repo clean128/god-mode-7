@@ -2,7 +2,7 @@
 
 > Transform marketing into a game. Find, filter, and engage with customers through an interactive map-based interface.
 
-![GodMode7](https://img.shields.io/badge/Status-Milestone%202%20Complete-green)
+![GodMode7](https://img.shields.io/badge/Status-Milestone%203%20Complete-green)
 ![React](https://img.shields.io/badge/React-18-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.3-blue)
 ![License](https://img.shields.io/badge/License-Proprietary-red)
@@ -40,6 +40,15 @@ GodMode7 is a gamified marketing platform that allows business owners to visuall
 - ✅ **Mobile-Responsive** - Full-screen filter panel on mobile, sidebar on desktop
 - ✅ **L2 API Integration** - All filters map to L2 DataMapping API fields
 - ✅ **Auto Map Updates** - Map refreshes automatically when filters applied
+
+### Milestone 3: Selection & Gift Flow ✅
+- ✅ **Gift Catalog** - Beautiful catalog with 8+ gift options (works with mock data)
+- ✅ **Sendoso API Integration** - Complete API service with mock data fallback
+- ✅ **Message Composition** - Optional personal messages for each gift
+- ✅ **Multi-Person Sending** - Send the same gift to multiple selected recipients
+- ✅ **Order Confirmation** - Professional order confirmation with full details
+- ✅ **Price Calculation** - Real-time total price calculation
+- ✅ **Smooth Flow** - Seamless transition from selection to confirmation
 
 ---
 
@@ -166,12 +175,12 @@ godmode7/
 - [x] Auto map updates on filter apply
 - [x] Collapsible filter sections
 
-### 📦 Milestone 3: Selection & Gift Flow ($1,400)
-- [ ] Gift catalog interface
-- [ ] Sendoso API integration
-- [ ] Message composition
-- [ ] Multi-person gift sending
-- [ ] Order confirmation
+### ✅ Milestone 3: Selection & Gift Flow (Complete)
+- [x] Gift catalog interface
+- [x] Sendoso API integration
+- [x] Message composition
+- [x] Multi-person gift sending
+- [x] Order confirmation
 
 ### 💳 Milestone 4: Payment & Notifications ($1,800)
 - [ ] Stripe checkout integration
@@ -222,7 +231,8 @@ VITE_MAPBOX_TOKEN=your_mapbox_token
 VITE_L2_API_CUSTOMER=your_l2_customer_id
 VITE_L2_API_KEY=your_l2_api_key
 
-# Required for Milestone 3
+# Optional for Milestone 3 (works with mock data if not provided)
+VITE_SENDOSO_API_BASE_URL=https://api.sendoso.com
 VITE_SENDOSO_API_KEY=your_sendoso_key
 
 # Required for Milestone 4

@@ -3,7 +3,7 @@ import { useAppStore } from '../../stores/appStore';
 export default function SelectionSummary() {
   const selectedPeople = useAppStore((state) => state.selectedPeople);
   const clearSelection = useAppStore((state) => state.clearSelection);
-  const addNotification = useAppStore((state) => state.addNotification);
+  const openGiftSelection = useAppStore((state) => state.openGiftSelection);
 
   const selectedCount = Object.keys(selectedPeople).length;
 
@@ -12,13 +12,8 @@ export default function SelectionSummary() {
   }
 
   const handleContinue = () => {
-    // For Milestone 1, just show a notification
-    // Milestone 3 will implement the actual gift sending flow
-    addNotification({
-      type: 'info',
-      message: 'Gift sending feature coming in Milestone 3!',
-      duration: 3000,
-    });
+    // Open gift selection modal (Milestone 3)
+    openGiftSelection();
   };
 
   return (

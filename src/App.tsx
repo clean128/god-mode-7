@@ -4,6 +4,8 @@ import BusinessSearch from './components/BusinessSearch/BusinessSearch';
 import FilterPanel from './components/FilterPanel/FilterPanel';
 import PersonDetailModal from './components/PersonDetailModal/PersonDetailModal';
 import SelectionSummary from './components/SelectionSummary/SelectionSummary';
+import GiftSelectionModal from './components/GiftSelectionModal/GiftSelectionModal';
+import OrderConfirmation from './components/OrderConfirmation/OrderConfirmation';
 import NotificationContainer from './components/Notifications/NotificationContainer';
 import LoadingOverlay from './components/LoadingOverlay/LoadingOverlay';
 
@@ -11,6 +13,8 @@ function App() {
   const isLoading = useAppStore((state) => state.isLoading);
   const showFilters = useAppStore((state) => state.showFilters);
   const selectedPerson = useAppStore((state) => state.selectedPerson);
+  const showGiftSelection = useAppStore((state) => state.showGiftSelection);
+  const showOrderConfirmation = useAppStore((state) => state.showOrderConfirmation);
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-game-bg">
@@ -36,6 +40,12 @@ function App() {
 
       {/* Person Detail Modal */}
       {selectedPerson && <PersonDetailModal />}
+
+      {/* Gift Selection Modal (Milestone 3) */}
+      {showGiftSelection && <GiftSelectionModal />}
+
+      {/* Order Confirmation Modal (Milestone 3) */}
+      {showOrderConfirmation && <OrderConfirmation />}
 
       {/* Loading Overlay */}
       {isLoading && <LoadingOverlay />}
