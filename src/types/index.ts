@@ -59,26 +59,49 @@ export interface SearchFilters {
   gender?: ('M' | 'F' | 'U')[];
   ageRange?: [number, number];
   incomeRange?: string[];
+  education?: string[];
+  ethnicity?: string[];
   
   // Location
   zipCodes?: string[];
   radius?: number; // in meters
+  state?: string[];
+  county?: string[];
   
   // Household
   homeowner?: boolean;
   childrenPresent?: boolean;
   maritalStatus?: string[];
+  householdSize?: [number, number];
   
   // Professional
   businessOwner?: boolean;
   occupation?: string[];
+  employmentStatus?: string[];
   
-  // Interests
+  // Interests & Lifestyle
   interests?: string[];
+  lifestyleSegment?: string[];
+  hobbies?: string[];
   
   // Financial
   netWorthRange?: string[];
   homeValueRange?: string[];
+  creditRating?: string[];
+  
+  // Behavioral
+  onlineBuyer?: boolean;
+  mailResponder?: boolean;
+  charitableDonor?: boolean;
+  politicalAffiliation?: string[];
+  
+  // Vehicles
+  vehicleOwner?: boolean;
+  vehicleType?: string[];
+  
+  // Advanced
+  petOwner?: string[]; // ['Dogs', 'Cats', etc.]
+  travelFrequency?: string[];
 }
 
 export interface L2SearchRequest {
