@@ -7,6 +7,7 @@ import {
   AppNotification,
   MapState 
 } from '../types';
+import { FilterPreset } from '../types/filterPreset';
 
 interface AppState {
   // Business state
@@ -27,6 +28,16 @@ interface AppState {
   filters: SearchFilters;
   setFilters: (filters: Partial<SearchFilters>) => void;
   resetFilters: () => void;
+  
+  // Filter presets
+  filterPresets: FilterPreset[];
+  saveFilterPreset: (name: string, description?: string) => void;
+  loadFilterPreset: (presetId: string) => void;
+  deleteFilterPreset: (presetId: string) => void;
+  
+  // Filter results
+  filterResultCount: number | null;
+  setFilterResultCount: (count: number | null) => void;
   
   // Map state
   mapState: MapState;
@@ -79,6 +90,34 @@ export const useAppStore = create<AppState>((set) => ({
     filters: { ...state.filters, ...newFilters }
   })),
   resetFilters: () => set({ filters: {} }),
+  
+  // Filter presets
+  filterPresets: [],
+  saveFilterPreset: (name, description) => set((state) => {
+    const newPreset: FilterPreset = {
+      id: `preset-${Date.now()}`,
+      name,
+      description,
+      filters: state.filters,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    };
+    return { filterPresets: [...state.filterPresets, newPreset] };
+  }),
+  loadFilterPreset: (presetId) => set((state) => {
+    const preset = state.filterPresets.find((p) => p.id === presetId);
+    if (preset) {
+      return { filters: preset.filters };
+    }
+    return state;
+  }),
+  deleteFilterPreset: (presetId) => set((state) => ({
+    filterPresets: state.filterPresets.filter((p) => p.id !== presetId)
+  })),
+  
+  // Filter results
+  filterResultCount: null,
+  setFilterResultCount: (count) => set({ filterResultCount: count }),
   
   // Map
   mapState: {
