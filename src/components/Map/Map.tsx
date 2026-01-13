@@ -60,25 +60,41 @@ export default function Map() {
         maxzoom: 14,
       });
 
-      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.2 });
+      // Enhanced terrain with more exaggeration for game-like feel
+      map.setTerrain({ source: 'mapbox-dem', exaggeration: 1.8 });
 
-      // Add sky layer
+      // Add game-style sky with vibrant colors
       map.addLayer({
         id: 'sky',
         type: 'sky',
         paint: {
           'sky-type': 'atmosphere',
-          'sky-atmosphere-sun': [0.0, 90.0],
-          'sky-atmosphere-sun-intensity': 15,
+          'sky-atmosphere-sun': [0.0, 0.0], // Sun position for dramatic lighting
+          'sky-atmosphere-sun-intensity': 20, // Increased intensity for game-like glow
+          'sky-atmosphere-color': '#3b82f6', // Blue tint for game atmosphere
+          'sky-atmosphere-halo-color': '#8b5cf6', // Purple halo for neon effect
         },
       });
 
-      // Add 3D buildings
+      // Add 3D buildings with game-style colors
       const layers = map.getStyle().layers;
       const labelLayerId = layers?.find(
         (layer) => layer.type === 'symbol' && layer.layout?.['text-field']
       )?.id;
 
+      // Game-style building colors - vibrant neon palette
+      const gameColors = [
+        '#3b82f6', // Blue
+        '#8b5cf6', // Purple
+        '#ec4899', // Pink
+        '#f59e0b', // Amber
+        '#10b981', // Emerald
+        '#06b6d4', // Cyan
+        '#f97316', // Orange
+        '#6366f1', // Indigo
+      ];
+
+      // Add base building layer with varied colors
       map.addLayer(
         {
           id: '3d-buildings',
@@ -86,15 +102,113 @@ export default function Map() {
           'source-layer': 'building',
           filter: ['==', 'extrude', 'true'],
           type: 'fill-extrusion',
-          minzoom: 15,
+          minzoom: 14,
           paint: {
-            'fill-extrusion-color': '#4ade80',
-            'fill-extrusion-height': ['interpolate', ['linear'], ['zoom'], 15, 0, 15.05, ['get', 'height']],
-            'fill-extrusion-base': ['interpolate', ['linear'], ['zoom'], 15, 0, 15.05, ['get', 'min_height']],
-            'fill-extrusion-opacity': 0.6,
+            // Use height-based color variation for game-like appearance
+            'fill-extrusion-color': [
+              'interpolate',
+              ['linear'],
+              ['get', 'height'],
+              0,
+              gameColors[0],
+              50,
+              gameColors[1],
+              100,
+              gameColors[2],
+              150,
+              gameColors[3],
+              200,
+              gameColors[4],
+              250,
+              gameColors[5],
+            ],
+            'fill-extrusion-height': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              14,
+              0,
+              14.05,
+              ['get', 'height'],
+            ],
+            'fill-extrusion-base': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              14,
+              0,
+              14.05,
+              ['coalesce', ['get', 'min_height'], 0],
+            ],
+            'fill-extrusion-opacity': 0.85,
           },
         },
         labelLayerId
+      );
+
+      // Add building outlines for game-like edge definition
+      map.addLayer(
+        {
+          id: '3d-buildings-outline',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: ['==', 'extrude', 'true'],
+          type: 'line',
+          minzoom: 14,
+          paint: {
+            'line-color': '#ffffff',
+            'line-width': 1.5,
+            'line-opacity': 0.4,
+          },
+        },
+        '3d-buildings'
+      );
+
+      // Add glow effect layer for taller buildings
+      map.addLayer(
+        {
+          id: '3d-buildings-glow',
+          source: 'composite',
+          'source-layer': 'building',
+          filter: ['all', ['==', 'extrude', 'true'], ['>', ['get', 'height'], 50]],
+          type: 'fill-extrusion',
+          minzoom: 14,
+          paint: {
+            'fill-extrusion-color': [
+              'interpolate',
+              ['linear'],
+              ['get', 'height'],
+              50,
+              '#60a5fa',
+              100,
+              '#a78bfa',
+              150,
+              '#f472b6',
+              200,
+              '#fbbf24',
+            ],
+            'fill-extrusion-height': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              14,
+              0,
+              14.05,
+              ['+', ['get', 'height'], 5],
+            ],
+            'fill-extrusion-base': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              14,
+              0,
+              14.05,
+              ['coalesce', ['get', 'min_height'], 0],
+            ],
+            'fill-extrusion-opacity': 0.3,
+          },
+        },
+        '3d-buildings'
       );
     });
 
