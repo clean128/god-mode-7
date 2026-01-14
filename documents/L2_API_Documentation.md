@@ -1,8 +1,8 @@
 # L2 DataMapping.com API v2
 
-**Revision:** 2.0.11  
-**Date:** 2/11/2025 6:58 PM  
-**Copyright:** © 2021 L2
+**Revision:** 2.0.12  
+**Date:** 9/30/2025 11:30 AM  
+**Copyright:** © 2025 L2
 
 ---
 
@@ -16,9 +16,10 @@
 6. [Customer Applications](#5-customer-applications)
 7. [Customer Field Sets](#6-customer-field-sets)
 8. [Searching Records](#7-searching-records)
-9. [Errors](#8-errors)
-10. [Election Columns](#9-election-columns)
-11. [Revisions](#10-revisions)
+9. [Matching on Names or Addresses](#8-matching-on-names-or-addresses)
+10. [Errors](#9-errors)
+11. [Election Columns](#10-election-columns)
+12. [Revisions](#11-revisions)
 
 ---
 
@@ -1125,7 +1126,186 @@ A CSV or JSON file will be returned if the export has successfully `"FINISHED"` 
 
 ---
 
-## 8. Errors
+## 8. Matching on Names or Addresses
+
+### 8.1 Perform a single name or address match
+
+Use this API to try to find people by name or address. If the parameters contain `fullname` or `firstname` and `lastname`, then a name search is done. Otherwise, the search is done on the address to return all residents.
+
+**Request URL:**
+```
+POST /api/v2/match/query/<customer>/<app>?<Authentication>
+```
+
+**URL Parameters:**
+- `customer` - Customer Id
+- `app` - Application Id
+
+**Body Parameters:**
+- `firstname` - (optional) The first name to match
+- `middlename` - (optional) The middle name to match
+- `lastname` - (optional) The last name to match
+- `fullname` - (optional) The full name (first {middle} last) to match
+- `birthdate` - (optional) The birth date (in YYYY-MM-DD format) to match
+- `age` - (optional) The age to match (either an integer number of years OR a string `"<min>-<max>"`)
+- `email` - (optional) The email to match
+- `phone` - (optional) The phone number to match
+- `address` - (optional) The street address to match
+- `address_extra` - (optional) The additional street address to match
+- `city` - (optional) The city to match
+- `state` - (optional) The state to match (if using a US application)
+- `zipcode` - (optional) The zip code to match
+- `threshold` - (optional, default is `"B-"`) The minimum grade (`"B-"`, `"A-"`, etc) to return
+- `response_max` - (optional, default is 10) The maximum number of responses to return
+- `rank_method` - (optional, default is `"best"`) The ranking method to use. Can be:
+  - `"one"` – only return a result if there is a single best match above the threshold
+  - `"best"` – return all the results with the best grade above the threshold if there are less than `response_max` of them
+  - `"all"` – returns all matches above the threshold
+- `return_search` - (optional, default is false) If true, the search properties used will be returned with each match
+- `return_record` - (optional, default is false) If true, the match results will contain properties of their records that could be used for matching
+
+**Example:**
+```
+/api/v2/match/query/3V0L/VM_MA?id=3V0L&apikey=a1b2c3d4e5f6g7
+```
+
+**Body:**
+```json
+{
+  "fullname": "Jim Green",
+  "zipcode": "01772",
+  "return_record": true
+}
+```
+
+**Response:**
+
+The response is an array of matched records that will contain a `PRIMARY_KEY` (either an `LALVOTERID` for voters or an `LALCONSUMERID` for consumers), a letter `GRADE`, and a `STATUS` (`"ONE"`, `"BEST"` or `"ALL"`). Optionally, the match records may contain `REC_` and/or `SEARCH_` properties depending on the parameters.
+
+```json
+[
+  {
+    "GRADE": "A",
+    "STATUS": "ONE",
+    "PRIMARY_KEY": "LALMA160016304",
+    "REC_FIRSTNAME": "James",
+    "REC_LASTNAME": "Greene",
+    "REC_PHONE_LAND": "",
+    "REC_PHONE_CELL": "",
+    "REC_EMAIL": ""
+  }
+]
+```
+
+---
+
+### 8.2 Perform multiple name or address matches
+
+Use this API to try to send a file containing names or addresses to match. The file should be a `.tsv`, `.tab`, or `.csv` file and contain a header row. If the headers contain `fullname` or `firstname` and `lastname`, then a name search is done on all rows. Otherwise, the search is done on the address to return all residents.
+
+**Request URL:**
+```
+POST /api/v2/match/file/<customer>/<app>?<Authentication>
+```
+
+> **Note:** The curl example in the documentation uses `/api/v2/match/file/` endpoint for file-based matching operations.
+
+**URL Parameters:**
+- `customer` - Customer Id
+- `app` - Application Id
+
+**Body Parameters:**
+- `file` - The file to post
+- `notify_email` - (optional) An email address to send a message when the job completes
+- `threshold` - (optional, default is `"B-"`) The minimum grade (`"B-"`, `"A-"`, etc) to return
+- `response_max` - (optional, default is 10) The maximum number of responses to return
+- `rank_method` - (optional, default is `"best"`) The ranking method to use. Can be:
+  - `"one"` – only return a result if there is a single best match above the threshold
+  - `"best"` – return all the results with the best grade above the threshold if there are less than `response_max` of them
+  - `"all"` – returns all matches above the threshold
+- `return_search` - (optional, default is false) If true, the search properties used will be returned with each match
+- `return_record` - (optional, default is false) If true, the match results will contain properties of their records that could be used for matching
+
+**Example:**
+
+Note: This example is being provided as a curl command.
+
+```bash
+curl --location \
+'https://api.l2datamapping.com/api/v2/match/file/<customer_id>/VM_US?id=<customer_id>&apikey=<api-key>' \
+--form 'file=@"/data/examples/match_test_short.tsv"' \
+--form 'max_returns="6"' \
+--form 'rank_method="one"' \
+--form 'grade_threshold="B+"'
+```
+
+**Response:**
+
+The response is a JSON record that contains the id for the match job to process the file. Match jobs are enqueued and processed as server capacity is available. The following API endpoints can be used to query the status of the match job and download the results.
+
+```json
+{
+  "match_job": "3V000397F"
+}
+```
+
+---
+
+### 8.3 Get Match Job Status
+
+Use this API to test the status of a match job that has been submitted.
+
+**Request URL:**
+```
+GET /api/v2/match/status/<job>?<Authentication>
+```
+
+**URL Parameters:**
+- `job` - Identifier returned from a previous match file submission.
+
+**Example:**
+```
+/api/v2/match/status/3V000397F?id=3V0L&apikey=a1b2c3d4e5f6g7
+```
+
+**Response:**
+
+The status is returned and is either `"ENQUEUED"`, `"PROCESSING"`, `"FINISHED"`, or `"ERROR"`.
+
+```json
+{
+  "status": "FINISHED",
+  "result": "ok",
+  "code": 200
+}
+```
+
+---
+
+### 8.4 Download Match Results File
+
+Use this API to retrieve the TSV file created by doing a match job.
+
+**Request URL:**
+```
+GET /api/v2/match/download/<job>?<Authentication>
+```
+
+**URL Parameters:**
+- `job` - Identifier returned from a previous match file submission for the same customer.
+
+**Example:**
+```
+/api/v2/match/download/3V000397F?id=3V0L&apikey=a1b2c3d4e5f6g7
+```
+
+**Response:**
+
+A TSV file will be returned if the match job has successfully `"FINISHED"` (see match job status API). Otherwise the response will contain information on the status of the export or parameter errors.
+
+---
+
+## 9. Errors
 
 The following errors can be generated by the API requests:
 
@@ -1175,7 +1355,7 @@ The following errors can be generated by the API requests:
 
 ---
 
-## 9. Election Columns
+## 10. Election Columns
 
 DataMapping uses the ability to name columns differently depending on the state to overload election columns so that a single election column will contain different election types and dates based on the state.
 
@@ -1229,7 +1409,7 @@ The response from the Get Application Columns will still have state-by-state nam
 
 ---
 
-## 10. Revisions
+## 11. Revisions
 
 | Version | Date | Changes |
 |---------|------|---------|
@@ -1245,8 +1425,9 @@ The response from the Get Application Columns will still have state-by-state nam
 | 2.0.9 | 1/17/2023 | Removed app from Get Customer Universes documentation |
 | 2.0.10 | 1/17/2023 | Corrected authentication parameter as apikey |
 | 2.0.11 | 8/22/2023 | Added Table of Contents |
+| 2.0.12 | 9/11/2025 | Added Matching APIs |
 
 ---
 
-*L2 DataMapping.com API v2 Documentation - Copyright © 2021 L2*
+*L2 DataMapping.com API v2 Documentation - Copyright © 2025 L2*
 
