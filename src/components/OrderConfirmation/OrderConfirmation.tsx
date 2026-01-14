@@ -55,8 +55,8 @@ export default function OrderConfirmation() {
           <div className="flex items-center gap-3">
             {getStatusIcon(currentOrder.status)}
             <div>
-              <h2 className="text-2xl font-bold text-white">Order Confirmation</h2>
-              <p className="text-sm text-gray-400">Order #{currentOrder.id.slice(-8)}</p>
+              <h2 className="text-2xl font-game-heading text-white">Order Confirmation</h2>
+              <p className="text-sm text-gray-400 font-game-heading">Order #{currentOrder.id.slice(-8)}</p>
             </div>
           </div>
           <button
@@ -73,19 +73,19 @@ export default function OrderConfirmation() {
           <div className="flex items-center justify-between p-4 bg-game-bg/50 rounded-lg border border-game-border">
             <div>
               <p className="text-sm text-gray-400 mb-1">Status</p>
-              <p className={`text-lg font-semibold ${getStatusColor(currentOrder.status)}`}>
+              <p className={`text-lg font-game-heading ${getStatusColor(currentOrder.status)}`}>
                 {currentOrder.status.charAt(0).toUpperCase() + currentOrder.status.slice(1)}
               </p>
             </div>
             <div>
               <p className="text-sm text-gray-400 mb-1">Order Date</p>
-              <p className="text-lg font-semibold text-white">{formatDate(currentOrder.createdAt)}</p>
+              <p className="text-lg font-game-heading text-white">{formatDate(currentOrder.createdAt)}</p>
             </div>
           </div>
 
           {/* Gift Details */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <h3 className="text-lg font-game-heading text-white mb-4 flex items-center gap-2">
               <Package className="w-5 h-5" />
               Gift Details
             </h3>
@@ -101,7 +101,7 @@ export default function OrderConfirmation() {
                   </div>
                 )}
                 <div className="flex-1">
-                  <h4 className="text-lg font-semibold text-white mb-1">
+                  <h4 className="text-lg font-game-heading text-white mb-1">
                     {currentOrder.gift.name}
                   </h4>
                   <p className="text-sm text-gray-400 mb-2">
@@ -125,7 +125,7 @@ export default function OrderConfirmation() {
           {/* Message */}
           {currentOrder.message && (
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Personal Message</h3>
+              <h3 className="text-lg font-game-heading text-white mb-3">Personal Message</h3>
               <div className="p-4 bg-game-bg/50 rounded-lg border border-game-border">
                 <p className="text-white whitespace-pre-wrap">{currentOrder.message}</p>
               </div>
@@ -134,7 +134,7 @@ export default function OrderConfirmation() {
 
           {/* Recipients */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-game-heading text-white mb-3 flex items-center gap-2">
               <Users className="w-5 h-5" />
               Recipients ({currentOrder.recipients.length})
             </h3>
@@ -160,7 +160,7 @@ export default function OrderConfirmation() {
 
           {/* Order Summary */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-3 flex items-center gap-2">
+            <h3 className="text-lg font-game-heading text-white mb-3 flex items-center gap-2">
               <Calendar className="w-5 h-5" />
               Order Summary
             </h3>
@@ -176,7 +176,7 @@ export default function OrderConfirmation() {
               <div className="border-t border-game-border pt-2 mt-2">
                 <div className="flex justify-between">
                   <span className="text-lg font-semibold text-white">Total</span>
-                  <span className="text-2xl font-bold text-primary-400">
+                  <span className="text-2xl font-game-display text-primary-400">
                     ${currentOrder.totalPrice.toFixed(2)}
                   </span>
                 </div>

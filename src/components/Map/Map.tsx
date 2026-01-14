@@ -39,7 +39,15 @@ export default function Map() {
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/dark-v11',
+      style: 'mapbox://styles/mapbox/standard',
+      config: {
+        basemap: {
+          lightPreset: "dusk",
+          font: "EB Garamond",
+          show3dFacades: true,
+          showLandmarkIcons: true
+        }
+      },
       center: mapState.center,
       zoom: mapState.zoom,
       pitch: mapState.pitch,
@@ -422,8 +430,8 @@ export default function Map() {
     return (
       <div className="w-full h-full flex items-center justify-center bg-game-bg">
         <div className="text-center">
-          <h2 className="text-2xl font-bold text-white mb-2">Mapbox Token Required</h2>
-          <p className="text-gray-400">Please set VITE_MAPBOX_TOKEN in your .env file</p>
+          <h2 className="text-2xl font-game-heading text-white mb-2">Mapbox Token Required</h2>
+          <p className="text-gray-400 font-game-heading">Please set VITE_MAPBOX_TOKEN in your .env file</p>
         </div>
       </div>
     );
@@ -433,24 +441,24 @@ export default function Map() {
     <div className="relative w-full h-full">
       <div ref={mapContainer} className="w-full h-full" />
       
-      {/* Filter Toggle Button */}
-      {currentBusiness && (
+      {/* Filter Toggle Button - Bigger and more game-like, hidden by default */}
+      {currentBusiness && people.length > 0 && (
         <button
           onClick={() => setShowFilters(!showFilters)}
           className={`
-            absolute top-4 right-4 z-10
-            px-4 py-3 rounded-lg font-semibold
-            transition-all duration-200 shadow-lg
-            flex items-center gap-2
+            absolute top-6 right-6 z-10
+            px-6 py-4 rounded-xl font-bold text-lg
+            transition-all duration-200 shadow-2xl
+            flex items-center gap-3 border-2
             ${
               showFilters
-                ? 'bg-primary-600 text-white'
-                : 'glass-panel text-white hover:bg-game-panel/70'
+                ? 'bg-primary-600 text-white border-white/20'
+                : 'glass-panel text-white hover:bg-game-panel/70 border-primary-500/50'
             }
           `}
         >
           <svg
-            className="w-5 h-5"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -462,8 +470,18 @@ export default function Map() {
               d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"
             />
           </svg>
-          Filters
+          {showFilters ? 'Hide Filters' : '🔍 Filter People'}
         </button>
+      )}
+      
+      {/* Help Text - Show when business is found but no people yet */}
+      {currentBusiness && people.length === 0 && (
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none">
+          <div className="glass-panel p-6 rounded-2xl border-2 border-primary-500/50 text-center max-w-md">
+            <p className="text-xl font-bold text-white mb-2">👆 Click on the colorful pins!</p>
+            <p className="text-primary-300">Each pin is a person near your business. Click to see their details.</p>
+          </div>
+        </div>
       )}
     </div>
   );

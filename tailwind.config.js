@@ -30,6 +30,9 @@ export default {
       },
       fontFamily: {
         game: ['"Press Start 2P"', 'cursive'],
+        'game-title': ['Orbitron', 'sans-serif'],
+        'game-heading': ['Russo One', 'sans-serif'],
+        'game-display': ['Black Ops One', 'cursive'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {

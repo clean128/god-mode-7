@@ -8,6 +8,7 @@ import GiftSelectionModal from './components/GiftSelectionModal/GiftSelectionMod
 import OrderConfirmation from './components/OrderConfirmation/OrderConfirmation';
 import NotificationContainer from './components/Notifications/NotificationContainer';
 import LoadingOverlay from './components/LoadingOverlay/LoadingOverlay';
+import Walkthrough from './components/Walkthrough/Walkthrough';
 
 function App() {
   const isLoading = useAppStore((state) => state.isLoading);
@@ -15,12 +16,16 @@ function App() {
   const selectedPerson = useAppStore((state) => state.selectedPerson);
   const showGiftSelection = useAppStore((state) => state.showGiftSelection);
   const showOrderConfirmation = useAppStore((state) => state.showOrderConfirmation);
+  const showWalkthrough = useAppStore((state) => state.showWalkthrough);
 
   return (
     <div className="relative w-full h-screen overflow-hidden bg-game-bg">
-      {/* Header with Business Search */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-4 animate-slide-in-top">
-        <div className="max-w-2xl mx-auto">
+      {/* Walkthrough/Tutorial */}
+      {showWalkthrough && <Walkthrough />}
+      
+      {/* Header with Business Search - Bigger and more prominent */}
+      <div className="absolute top-0 left-0 right-0 z-10 p-6 animate-slide-in-top">
+        <div className="max-w-4xl mx-auto">
           <BusinessSearch />
         </div>
       </div>

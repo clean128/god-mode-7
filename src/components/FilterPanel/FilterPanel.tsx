@@ -766,7 +766,7 @@ export default function FilterPanel() {
       <div className="p-4 border-b border-game-border flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Filter className="w-5 h-5 text-primary-500" />
-          <h2 className="text-lg font-bold text-white">Advanced Filters</h2>
+          <h2 className="text-lg font-game-heading text-white">Advanced Filters</h2>
           {activeFilterCount > 0 && (
             <span className="px-2 py-0.5 bg-primary-600 rounded-full text-xs text-white">
               {activeFilterCount}

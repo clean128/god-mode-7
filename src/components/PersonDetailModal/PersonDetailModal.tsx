@@ -12,6 +12,7 @@ import {
   CheckCircle,
   Circle,
 } from 'lucide-react';
+import GameAvatar from '../Avatar/GameAvatar';
 
 export default function PersonDetailModal() {
   const selectedPerson = useAppStore((state) => state.selectedPerson);
@@ -60,16 +61,22 @@ export default function PersonDetailModal() {
         >
           {/* Header */}
           <div className="sticky top-0 bg-game-panel/95 backdrop-blur-md border-b border-game-border p-6 flex items-start justify-between">
-            <div className="flex-1">
-              <h2 className="text-2xl font-bold text-white mb-2">
-                {selectedPerson.fullName || `${selectedPerson.firstName} ${selectedPerson.lastName}`}
-              </h2>
-              <div className="flex items-center gap-4 text-sm text-gray-400">
-                {selectedPerson.age && <span>Age: {selectedPerson.age}</span>}
-                {selectedPerson.gender && <span>•</span>}
-                {selectedPerson.gender && (
-                  <span>{selectedPerson.gender === 'M' ? 'Male' : selectedPerson.gender === 'F' ? 'Female' : 'Unknown'}</span>
-                )}
+            <div className="flex-1 flex items-start gap-4">
+              {/* Game Avatar */}
+              <div className="flex-shrink-0">
+                <GameAvatar person={selectedPerson} size="xl" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-2xl font-game-heading text-white mb-2">
+                  {selectedPerson.fullName || `${selectedPerson.firstName} ${selectedPerson.lastName}`}
+                </h2>
+                <div className="flex items-center gap-4 text-sm text-gray-400">
+                  {selectedPerson.age && <span>Age: {selectedPerson.age}</span>}
+                  {selectedPerson.gender && <span>•</span>}
+                  {selectedPerson.gender && (
+                    <span>{selectedPerson.gender === 'M' ? 'Male' : selectedPerson.gender === 'F' ? 'Female' : 'Unknown'}</span>
+                  )}
+                </div>
               </div>
             </div>
             <button
@@ -84,7 +91,7 @@ export default function PersonDetailModal() {
           <div className="p-6 space-y-6">
             {/* Contact Information */}
             <div>
-              <h3 className="text-lg font-semibold text-white mb-3">Contact Information</h3>
+              <h3 className="text-lg font-game-heading text-white mb-3">Contact Information</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <InfoRow icon={MapPin} label="Address" value={selectedPerson.address} />
                 <InfoRow icon={MapPin} label="Zip Code" value={selectedPerson.zipCode} />
@@ -96,7 +103,7 @@ export default function PersonDetailModal() {
             {/* Financial Information */}
             {(selectedPerson.estimatedIncome || selectedPerson.netWorth || selectedPerson.homeValue) && (
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Financial Profile</h3>
+                <h3 className="text-lg font-game-heading text-white mb-3">Financial Profile</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <InfoRow icon={DollarSign} label="Estimated Income" value={selectedPerson.estimatedIncome} />
                   <InfoRow icon={DollarSign} label="Net Worth" value={selectedPerson.netWorth} />
@@ -108,7 +115,7 @@ export default function PersonDetailModal() {
             {/* Household Information */}
             {(selectedPerson.maritalStatus || selectedPerson.householdSize || selectedPerson.childrenPresent !== undefined) && (
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Household</h3>
+                <h3 className="text-lg font-game-heading text-white mb-3">Household</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <InfoRow icon={Users} label="Household Size" value={selectedPerson.householdSize} />
                   <InfoRow icon={Heart} label="Marital Status" value={selectedPerson.maritalStatus} />
@@ -130,7 +137,7 @@ export default function PersonDetailModal() {
             {/* Professional Information */}
             {(selectedPerson.occupation || selectedPerson.businessOwner !== undefined) && (
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Professional</h3>
+                <h3 className="text-lg font-game-heading text-white mb-3">Professional</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                   <InfoRow icon={Briefcase} label="Occupation" value={selectedPerson.occupation} />
                   {selectedPerson.businessOwner !== undefined && (
@@ -162,7 +169,7 @@ export default function PersonDetailModal() {
             {/* Interests */}
             {selectedPerson.interests && selectedPerson.interests.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold text-white mb-3">Interests</h3>
+                <h3 className="text-lg font-game-heading text-white mb-3">Interests</h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedPerson.interests.map((interest: string, index: number) => (
                     <span
@@ -177,33 +184,41 @@ export default function PersonDetailModal() {
             )}
           </div>
 
-          {/* Footer Actions */}
-          <div className="sticky bottom-0 bg-game-panel/95 backdrop-blur-md border-t border-game-border p-6 flex items-center justify-between gap-4">
-            <button
-              onClick={handleClose}
-              className="btn-secondary flex-1"
-            >
-              Close
-            </button>
-            <button
-              onClick={handleSelect}
-              className={`
-                flex-1 flex items-center justify-center gap-2
-                ${isSelected ? 'btn-secondary' : 'btn-primary'}
-              `}
-            >
-              {isSelected ? (
-                <>
-                  <CheckCircle className="w-5 h-5" />
-                  Selected
-                </>
-              ) : (
-                <>
-                  <Circle className="w-5 h-5" />
-                  Select for Gift
-                </>
-              )}
-            </button>
+          {/* Footer Actions - Bigger and more game-like */}
+          <div className="sticky bottom-0 bg-game-panel/95 backdrop-blur-md border-t-4 border-primary-500/50 p-6">
+            <div className="flex gap-4">
+              <button
+                onClick={handleClose}
+                className="flex-1 px-6 py-4 bg-game-bg border-2 border-game-border rounded-xl text-white font-semibold text-lg hover:bg-game-bg/70 transition-all"
+              >
+                Close
+              </button>
+              <button
+                onClick={handleSelect}
+                className={`
+                  flex-1 px-8 py-4 rounded-xl font-bold text-xl transition-all shadow-lg flex items-center justify-center gap-3
+                  ${isSelected 
+                    ? 'bg-gradient-to-r from-green-500 to-green-600 text-white border-2 border-white/20' 
+                    : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 border-2 border-white/20'
+                  }
+                `}
+              >
+                {isSelected ? (
+                  <>
+                    <CheckCircle className="w-6 h-6" />
+                    ✓ Selected
+                  </>
+                ) : (
+                  <>
+                    <Circle className="w-6 h-6" />
+                    🎁 Select for Gift
+                  </>
+                )}
+              </button>
+            </div>
+            <p className="text-center text-sm text-primary-300 mt-3">
+              {isSelected ? 'This person is ready to receive a gift!' : 'Click to add this person to your gift list'}
+            </p>
           </div>
         </div>
       </div>

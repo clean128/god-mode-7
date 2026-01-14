@@ -1,5 +1,5 @@
 import { Person } from '../../types';
-import { User, Briefcase, Home } from 'lucide-react';
+import GameAvatar from '../Avatar/GameAvatar';
 
 interface PersonMarkerProps {
   person: Person;
@@ -8,21 +8,6 @@ interface PersonMarkerProps {
 }
 
 export default function PersonMarker({ person, onClick, isSelected }: PersonMarkerProps) {
-  // Determine marker color based on person attributes
-  const getMarkerColor = () => {
-    if (person.businessOwner) return 'from-purple-500 to-purple-600';
-    if (person.homeowner) return 'from-blue-500 to-blue-600';
-    return 'from-green-500 to-green-600';
-  };
-
-  const getIcon = () => {
-    if (person.businessOwner) return Briefcase;
-    if (person.homeowner) return Home;
-    return User;
-  };
-
-  const Icon = getIcon();
-
   return (
     <div
       className="relative cursor-pointer group"
@@ -34,24 +19,20 @@ export default function PersonMarker({ person, onClick, isSelected }: PersonMark
       {/* Outer pulse ring */}
       {isSelected && (
         <div className="absolute inset-0 animate-ping">
-          <div className={`w-full h-full rounded-full bg-gradient-to-br ${getMarkerColor()} opacity-30`} />
+          <div className="w-full h-full rounded-full bg-primary-500 opacity-30" />
         </div>
       )}
 
-      {/* Main marker */}
+      {/* Main marker with game avatar */}
       <div
         className={`
-          relative w-10 h-10 rounded-full
-          bg-gradient-to-br ${getMarkerColor()}
-          border-2 border-white shadow-neon
-          flex items-center justify-center
-          transform transition-all duration-300
+          relative transform transition-all duration-300
           ${isSelected ? 'scale-125' : 'scale-100'}
-          hover:scale-110 hover:shadow-neon
+          hover:scale-110
           group-hover:animate-pulse-slow
         `}
       >
-        <Icon className="w-5 h-5 text-white" />
+        <GameAvatar person={person} size="md" />
       </div>
 
       {/* Hover tooltip */}

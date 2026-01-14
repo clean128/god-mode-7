@@ -77,7 +77,7 @@ export default function GiftCatalog({
 
             {/* Gift Info */}
             <div>
-              <h3 className="font-semibold text-white mb-1">{gift.name}</h3>
+              <h3 className="font-game-heading text-white mb-1">{gift.name}</h3>
               <p className="text-xs text-gray-400 mb-2 line-clamp-2">{gift.description}</p>
               <div className="flex items-center justify-between">
                 <span className="text-primary-400 font-bold text-lg">${gift.price.toFixed(2)}</span>

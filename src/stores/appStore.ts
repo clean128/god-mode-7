@@ -71,6 +71,10 @@ interface AppState {
   setShowOrderConfirmation: (show: boolean) => void;
   openOrderConfirmation: () => void;
   closeOrderConfirmation: () => void;
+  
+  // Walkthrough
+  showWalkthrough: boolean;
+  setShowWalkthrough: (show: boolean) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -187,5 +191,9 @@ export const useAppStore = create<AppState>((set) => ({
   setShowOrderConfirmation: (show) => set({ showOrderConfirmation: show }),
   openOrderConfirmation: () => set({ showOrderConfirmation: true }),
   closeOrderConfirmation: () => set({ showOrderConfirmation: false }),
+  
+  // Walkthrough
+  showWalkthrough: true,
+  setShowWalkthrough: (show) => set({ showWalkthrough: show }),
 }));
 

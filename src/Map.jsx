@@ -17,7 +17,17 @@ export default function Map() {
 
     const map = new mapboxgl.Map({
       container: mapContainer.current,
-      style: "mapbox://styles/mapbox/streets-v12",
+      style: "mapbox://styles/mapbox/standard",
+      config: {
+        basemap: {
+          lightPreset: "dusk",
+          font: "EB Garamond",
+          show3dFacades: true,
+          showLandmarkIcons: true,
+          showRoadLabels: false,
+          showTransitLabels: false,
+        }
+      },
       center: [-74.006, 40.7128],
       zoom: 15,
       pitch: 60,

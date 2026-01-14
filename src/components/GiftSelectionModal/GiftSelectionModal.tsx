@@ -95,8 +95,8 @@ export default function GiftSelectionModal() {
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-game-border">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-1">Send Gifts</h2>
-            <p className="text-sm text-gray-400">
+            <h2 className="text-2xl font-game-heading text-white mb-1">Send Gifts</h2>
+            <p className="text-sm text-gray-400 font-game-heading">
               {selectedCount} {selectedCount === 1 ? 'person' : 'people'} selected
             </p>
           </div>
@@ -112,7 +112,7 @@ export default function GiftSelectionModal() {
         <div className="flex-1 overflow-y-auto p-6 space-y-6">
           {/* Gift Selection */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Choose a Gift</h3>
+            <h3 className="text-lg font-game-heading text-white mb-4">Choose a Gift</h3>
             <GiftCatalog
               gifts={gifts}
               selectedGift={selectedGift}
@@ -123,7 +123,7 @@ export default function GiftSelectionModal() {
 
           {/* Message Composition */}
           <div>
-            <label className="flex items-center gap-2 text-lg font-semibold text-white mb-4">
+            <label className="flex items-center gap-2 text-lg font-game-heading text-white mb-4">
               <MessageSquare className="w-5 h-5" />
               Personal Message (Optional)
             </label>
@@ -146,7 +146,7 @@ export default function GiftSelectionModal() {
 
           {/* Recipients Preview */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-3">Recipients</h3>
+            <h3 className="text-lg font-game-heading text-white mb-3">Recipients</h3>
             <div className="space-y-2 max-h-32 overflow-y-auto">
               {recipients.map((person) => (
                 <div
@@ -170,7 +170,7 @@ export default function GiftSelectionModal() {
           <div className="flex items-center justify-between mb-4">
             <div>
               <p className="text-sm text-gray-400">Total Cost</p>
-              <p className="text-3xl font-bold text-white">
+              <p className="text-3xl font-game-display text-white">
                 ${totalPrice.toFixed(2)}
               </p>
               {selectedGift && (
