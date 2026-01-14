@@ -25,7 +25,7 @@ export default function Map() {
           show3dFacades: true,
           showLandmarkIcons: true,
           showRoadLabels: false,
-          showTransitLabels: true,
+          showTransitLabels: false,
         }
       },
       center: [-74.006, 40.7128],
