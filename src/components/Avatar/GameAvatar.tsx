@@ -24,21 +24,6 @@ const getAvatarColor = (id: string) => {
   return colors[hash % colors.length];
 };
 
-// Generate initials from person name
-const getInitials = (person: Person): string => {
-  if (person.fullName) {
-    const parts = person.fullName.split(' ');
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
-    return person.fullName.substring(0, 2).toUpperCase();
-  }
-  if (person.firstName && person.lastName) {
-    return (person.firstName[0] + person.lastName[0]).toUpperCase();
-  }
-  return '??';
-};
-
 // Get avatar icon based on person attributes
 const getAvatarIcon = (person: Person): string => {
   if (person.businessOwner) return '💼';
@@ -57,7 +42,6 @@ const sizeClasses = {
 
 export default function GameAvatar({ person, size = 'md', className = '' }: GameAvatarProps) {
   const color = getAvatarColor(person.id);
-  const initials = getInitials(person);
   const icon = getAvatarIcon(person);
   const sizeClass = sizeClasses[size];
 
